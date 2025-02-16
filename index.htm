@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -49,18 +50,29 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        @keyframes heartBeat {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        .heart {
+            position: fixed;
+            font-size: 30px;
+            color: red;
+            animation: heartBeat 1s infinite alternate;
+        }
     </style>
 </head>
 <body>
-    <h2>Anh có rảnh vào chủ nhật này không? ❤️ 🥰</h2>
+    <h2>Chủ nhật này Anh có rảnh hơm? 🥰</h2>
 
     <button id="agree" class="btn" onclick="acceptLove()">Có chứ</button>
     <button id="disagree" class="btn" onclick="refuseLove()">Không rảnh</button>
 
     <!-- Popup -->
     <div id="popup" class="popup">
-        <p>Tuyệt vời! Mình cùng đi chơi nhé ❤️</p>
-        <button onclick="closePopup()">OK nhaa 😘</button>
+        <p>Tuyệt vời! Vậy mình cùng đi chơi nhé ❤️</p>
+        <button onclick="closePopup();"> Ấu cơ nhaa 😘</button>
     </div>
 
     <script>
@@ -74,7 +86,8 @@
         }
 
         function closePopup() {
-            popup.style.display = "none"; //  popup
+            popup.style.display = "none";
+            createFloatingHearts(); // Gọi hàm tạo trái tim bay
         }
 
         function refuseLove() {
@@ -93,6 +106,33 @@
 
             // Tăng biến đếm
             disagreeCount++;
+        }
+
+       function closePopup() {
+    popup.style.display = "none"; // Đóng popup
+    createFloatingHearts(); // Gọi hàm tạo trái tim bay
+}
+
+function createFloatingHearts() {
+    for (let i = 0; i < 10; i++) { // Tạo 10 trái tim
+        let heart = document.createElement("div");
+        heart.innerHTML = "❤️";
+        heart.classList.add("heart");
+        
+        // Đặt vị trí ngẫu nhiên gần popup
+        let xOffset = Math.random() * 100 - 50; // Dịch trái/phải 50px
+        let yOffset = Math.random() * 20 - 10; // Dịch lên/xuống 10px
+        
+        heart.style.left = `calc(50% + ${xOffset}px)`;
+        heart.style.top = `calc(50% + ${yOffset}px)`;
+        heart.style.position = "fixed";
+        
+        document.body.appendChild(heart);
+        
+        // Xóa trái tim sau khi animation kết thúc
+        setTimeout(() => heart.remove(), 2000);
+    }
+            }
         }
     </script>
 </body>
